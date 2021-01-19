@@ -1,6 +1,6 @@
 # Gravity Sync Docker
 
-These are the files required to build a Docker image running Gravity Sync.
+These are the files required to build a Docker image running [Gravity Sync](https://github.com/vmstan/gravity-sync).
 
 #### Before Running!
 You need to run the pre-launch scripts which will configure your remote host. Naturally, I reccomend you follow all reccomendations. Otherwise, you may have to do some manual configuration, or run with potentially less than desirable security configuration.<br />
