@@ -6,7 +6,7 @@ These are the files required to build a Docker image running Gravity Sync.
 You need to run the pre-launch scripts which will configure your remote host. Naturally, I reccomend you follow all reccomendations. Otherwise, you may have to do some manual configuration, or run with potentially less than desirable security configuration.<br />
 To run this is quite simple. Firstly, we must have a directory in place to map to the .ssh directory within the container.<br />
 `mkdir /path/to/.ssh`<br />
-Then, simply run the container in interactive mode, mounting this directory and entering at the pre-flight script file.
+Then, simply run the container in interactive mode, mounting this directory and entering at the pre-flight script file.<br />
 `docker run -t -i -v "/path/to/.ssh:/root/.ssh:rw" --rm docker_gravitysync /usr/local/bin/prelaunch.sh`
 
 #### Manual pre-launch
@@ -76,7 +76,7 @@ The following are the mount points within the container. You can map them to whe
 
 ###### Docker Socket
 `/var/run/docker.sock - READ ONLY`<br />
-This is required to allow the container to interact with the Docker process on the host, to pass along commands to your PiHole container.
+This is required to allow the container to interact with the Docker process on the host, to pass along commands to your PiHole container.<br />
 It is located at `/var/run/docker.sock` and should be mounted at `/var/run/docker.sock` and only requires read access.
 
 ###### Secondary PiHole Configuration Directory
@@ -98,7 +98,7 @@ SSH Keys must be configured and in place before the container is run for the fir
 
 #### User Creation Recommendation
 **If you ran the pre-launch scripts, then you were presented the option to have this done for you**<br />
-I created the user gravitysync on my remote machine, as I have SSH for the root account disabled. Also, since this is a service account, I did not want it using my personal system administration account. This account requires passwordless sudo, and also must have root access in order to have read / write access to the PiHole configuration on the remote system. Here is how I achieved that on an Ubuntu host.
+I created the user gravitysync on my remote machine, as I have SSH for the root account disabled. Also, since this is a service account, I did not want it using my personal system administration account. This account requires passwordless sudo, and also must have root access in order to have read / write access to the PiHole configuration on the remote system. Here is how I achieved that on an Ubuntu host.<br />
 ```
 sudo adduser gravitysync
 sudo echo "gravitysync ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/gravitysync
@@ -108,13 +108,13 @@ sudo usermod -a -G docker gravitysync
 
 #### SSH KEYS
 **If you ran the pre-launch scripts, then this will have been done for you**<br />
-In order to communicate with the remote host, SSH keys are required. An easy way to generate them is using the OpenSSH client. Using the following single liner, we can be sure on being able to generate these keys on any system.
-`docker run -t -i --rm alpine:latest apk --update add openssh-client && ssh-keygen -t rsa -f /tmp/id_rsa`
-Alternatively, if you have OpenSSH on your system already, you can use that. You then need to copy the key to the remote system. An easy way to do this is using ssh-copy-id like so:
-`ssh-copy-id -i /tmp/id_rsa.pub gravitysync@192.168.0.1`.
+In order to communicate with the remote host, SSH keys are required. An easy way to generate them is using the OpenSSH client. Using the following single liner, we can be sure on being able to generate these keys on any system.<br />
+`docker run -t -i --rm alpine:latest apk --update add openssh-client && ssh-keygen -t rsa -f /tmp/id_rsa`<br />
+Alternatively, if you have OpenSSH on your system already, you can use that. You then need to copy the key to the remote system. An easy way to do this is using ssh-copy-id like so:<br />
+`ssh-copy-id -i /tmp/id_rsa.pub gravitysync@192.168.0.1`.<br />
 This assumes that the key generated is indeed located at `/tmp/id_rsa.pub`, that the remote username is `gravitysync` and that the remote system is located at `192.168.0.1`.
 
 #### TO DO
-Integrate a health check
-Integrate more error detection during configuration
-Write a shell script to test the built container
+ - Integrate a health check<br />
+ - Integrate more error detection during configuration<br />
+ - Write a shell script to test the built container
