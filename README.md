@@ -115,6 +115,7 @@ Alternatively, if you have OpenSSH on your system already, you can use that. You
 This assumes that the key generated is indeed located at `/tmp/id_rsa.pub`, that the remote username is `gravitysync` and that the remote system is located at `192.168.0.1`.
 
 #### TO DO
+ - Persist MD5 files when upgrading containers<br />
  - Integrate a health check<br />
  - Integrate more error detection during configuration<br />
  - Write a shell script to test the built container
