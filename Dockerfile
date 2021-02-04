@@ -65,6 +65,8 @@ WORKDIR         /root/gravity-sync/
 RUN             apk --update add rsync sqlite docker-cli && \
                 rm -rf /var/lib/apt/lists/* && \
                 rm /var/cache/apk/* && \
+                echo 'echo "Git is not required"' > /usr/local/bin/git && \
+                chmod +x /usr/local/bin/git && \
                 chmod +x /usr/local/bin/configure.sh && \
                 chmod +x /usr/local/bin/prelaunch.sh && \
                 chmod +x /usr/local/bin/startup.sh
