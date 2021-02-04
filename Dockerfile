@@ -37,7 +37,7 @@ ENV             GS_INSTALL="secondary" \
 ADD             https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-static /tini
 
 RUN             chmod +x /tini && \
-                apk --update add openssh sudo bash
+                apk --update add openssh sudo bash coreutils
 
 
 FROM            baseenvironment as buildenvironment
