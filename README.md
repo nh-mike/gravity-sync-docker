@@ -3,7 +3,7 @@
 These are the files required to build a Docker image running [Gravity Sync](https://github.com/vmstan/gravity-sync).
 
 #### Before Running!
-If upgrading, then check the [Upgrade Instructions](#upgrade-instructions) for your intended release.
+If upgrading, then check the [Upgrade Instructions](#upgrade-instructions) for your intended release.<br />
 You need to run the pre-launch scripts which will configure your remote host. Naturally, I reccomend you follow all reccomendations. Otherwise, you may have to do some manual configuration, or run with potentially less than desirable security configuration.<br />
 To run this is quite simple. Firstly, we must have a directory in place to map to the .ssh directory within the container.<br />
 `mkdir /path/to/.ssh`<br />
