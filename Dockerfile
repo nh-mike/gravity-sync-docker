@@ -3,7 +3,7 @@ FROM            alpine:3 as baseenvironment
 LABEL           maintainer Michael Thompson <mike@michael-thompson.net>
 
 ENV             GS_INSTALL="secondary" \
-                GS_VERSION="3.2.6" \
+                GS_VERSION="3.3.0" \
                 GENERATE_SSH_CERTS="true" \
                 TINI_VERSION="0.19.0" \
                 DEBUG="false" \
@@ -18,6 +18,8 @@ ENV             GS_INSTALL="secondary" \
                 REMOTE_PIHOLE_DIR="/etc/pihole/" \
                 LOCAL_PIHOLE_BIN="" \
                 REMOTE_PIHOLE_BIN="" \
+                LOCAL_PH_INSTALL_TYPE="default" \
+                LOCAL_RH_INSTALL_TYPE="default" \
                 LOCAL_DOCKER_BIN="" \
                 REMOTE_DOCKER_BIN="" \
                 LOCAL_FILE_OWNER="root:root" \
@@ -59,6 +61,7 @@ COPY            configure.sh /usr/local/bin/configure.sh
 COPY            missionreport.sh /usr/local/bin/missionreport.sh
 COPY            prelaunch.sh /usr/local/bin/prelaunch.sh
 COPY            startup.sh /usr/local/bin/startup.sh
+COPY            upgradeCompatibilityChecks.sh /usr/local/bin/upgradeCompatibilityChecks.sh
 COPY            --from=buildenvironment /root/gravity-sync/ /root/gravity-sync/
 
 WORKDIR         /root/gravity-sync/
@@ -71,7 +74,8 @@ RUN             apk --update add rsync sqlite docker-cli util-linux && \
                 chmod +x /usr/local/bin/configure.sh && \
                 chmod +x /usr/local/bin/missionreport.sh && \
                 chmod +x /usr/local/bin/prelaunch.sh && \
-                chmod +x /usr/local/bin/startup.sh
+                chmod +x /usr/local/bin/startup.sh && \
+                chmod +x /usr/local/bin/upgradeCompatibilityChecks.sh
 
 HEALTHCHECK     --interval=5m --timeout=60s --start-period=10s \
                 CMD /usr/local/bin/missionreport.sh

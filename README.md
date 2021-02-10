@@ -26,6 +26,8 @@ It is important to note that in the interests of making configuration values mor
 |🟨|RIHOLE_DIR|REMOTE_PIHOLE_DIR|
 |🟨|PIHOLE_BIN|LOCAL_PIHOLE_BIN|
 |🟨|RIHOLE_BIN|REMOTE_PIHOLE_BIN|
+| |PH_IN_TYPE|LOCAL_PH_INSTALL_TYPE|
+| |RH_IN_TYPE|REMOTE_PH_INSTALL_TYPE|
 |🟨|DOCKER_BIN|LOCAL_DOCKER_BIN|
 |🟨|ROCKER_BIN|REMOTE_DOCKER_BIN|
 |🟨|FILE_OWNER|LOCAL_FILE_OWNER|
@@ -58,6 +60,8 @@ gravitysync:
     REMOTE_INSTALL_TYPE: "docker"
     LOCAL_PIHOLE_DIR: "/etc/pihole/"
     REMOTE_PIHOLE_DIR: "/docker/pihole/config/pihole/"
+    LOCAL_PH_INSTALL_TYPE: "docker"
+    REMOTE_PH_INSTALL_TYPE: "docker"
     LOCAL_FILE_OWNER: "root:root"
     REMOTE_FILE_OWNER: "root:root"
     SYNC_FREQUENCY: "30"
