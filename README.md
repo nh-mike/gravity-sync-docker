@@ -3,6 +3,7 @@
 These are the files required to build a Docker image running [Gravity Sync](https://github.com/vmstan/gravity-sync).
 
 #### Before Running!
+If upgrading, then check the [Upgrade Instructions](#upgrade-instructions) for your intended release.
 You need to run the pre-launch scripts which will configure your remote host. Naturally, I reccomend you follow all reccomendations. Otherwise, you may have to do some manual configuration, or run with potentially less than desirable security configuration.<br />
 To run this is quite simple. Firstly, we must have a directory in place to map to the .ssh directory within the container.<br />
 `mkdir /path/to/.ssh`<br />
@@ -93,8 +94,8 @@ This is where your gravity database sits. On a standard PiHole install, it would
 Gravity Sync performs a backup on every successful sync run, and also daily depending on to the automated backup setting. Backups are held for 7 days, depending on the retention policy specified with ***BACKUP_RETAIN***. If you do not mount this directory, then backups will be lost with every container update. This directory can be found at `/root/gravity-sync/data/backup/` within the container.
 
 ###### Gravity Sync Log Files
-`/root/gravity-sync/gravity-sync.log - READ / WRITE`<br />
-`/root/gravity-sync/gravity-sync.cron - READ / WRITE`<br />
+`/root/gravity-sync/logs/gravity-sync.log - READ / WRITE`<br />
+`/root/gravity-sync/logs/gravity-sync.cron - READ / WRITE`<br />
 Gravity Sync keeps a log file of it's most recent Cron run and also records of previous runs. You may find it useful to mount these from the host for easy viewing and also, if you wish to persist your logs between container rebuilds.
 
 ###### Gravity Sync MD5 File
@@ -123,6 +124,12 @@ Alternatively, if you have OpenSSH on your system already, you can use that. You
 `ssh-copy-id -i /tmp/id_rsa.pub gravitysync@192.168.0.1`.<br />
 This assumes that the key generated is indeed located at `/tmp/id_rsa.pub`, that the remote username is `gravitysync` and that the remote system is located at `192.168.0.1`.
 
+#### Upgrade Instructions
+###### 3.0.0
+This version includes various neccesary configuration changes, including the changing of log directory mount points within the container. See [Gravity Sync Log Files](#gravity-sync-log-files) for the new mount points.
+This version also adds two new configuration options, LOCAL_PH_INSTALL_TYPE and REMOTE_PH_INSTALL_TYPE
+
 #### TO DO
  - Integrate more error detection during configuration<br />
  - Write a shell script to test the built container
+
