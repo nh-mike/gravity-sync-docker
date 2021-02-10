@@ -9,6 +9,16 @@ else
 	set +v
 fi
 
+setLocalTimezone()
+{
+	apk --update add tzdata
+	cp /usr/share/zoneinfo/${TZ} /etc/localtime
+	echo "${TZ}" > /etc/timezone
+	apk del tzdata
+	rm -rf /var/cache/apk/*
+	rm -rf /usr/share/zoneinfo
+}
+
 connectSsh()
 {
 	SSH_OUTPUT="$(ssh -o BatchMode=yes -i ${KEY_PATH} -p${SSH_PORT} ${REMOTE_USER}@${REMOTE_HOST} 'exit 0' 2>&1)"
@@ -33,7 +43,7 @@ checkSshKeys()
 	else
 		KEY_PATH=$SSH_PKIF
 	fi
-	if [ !-f ${KEY_PATH} ];
+	if [ ! -f ${KEY_PATH} ];
 	then
 		echo "ERROR - SSH Keys do not exist"
 	elif [ ! connectSsh  ];
@@ -86,6 +96,8 @@ addToConfigFile()
 		echo "${SETTING}='${VALUE}'" >> /root/gravity-sync/gravity-sync.conf;
 	fi
 }
+
+setLocalTimezone
 
 checkSshKeys
 createConfigFile

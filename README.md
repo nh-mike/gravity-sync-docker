@@ -67,6 +67,7 @@ gravitysync:
     - "/docker/gravity-sync/logs/gravity-sync.log:/root/gravity-sync/gravity-sync.log:rw"
     - "/docker/gravity-sync/logs/gravity-sync.cron:/root/gravity-sync/gravity-sync.cron:rw"
     - "/docker/gravity-sync/data/backup:/root/gravity-sync/backup/:rw"
+    - "/docker/gravity-sync/data/gravity-sync.md5:/root/gravity-sync/gravity-sync.md5:rw"
     - "/docker/pihole/config/pihole:/etc/pihole/:rw"
     - "/var/run/docker.sock:/var/run/docker.sock:rw"
 ```
@@ -92,6 +93,10 @@ Gravity Sync performs a backup on every successful sync run, and also daily depe
 `/root/gravity-sync/gravity-sync.cron - READ / WRITE`<br />
 Gravity Sync keeps a log file of it's most recent Cron run and also records of previous runs. You may find it useful to mount these from the host for easy viewing and also, if you wish to persist your logs between container rebuilds.
 
+###### Gravity Sync MD5 File
+`/root/gravity-sync/gravity-sync.md5 - READ / WRITE`<br />
+Gravity Sync records the MD5 hash for both the local and remote gravity.db, custom.list and 05-pihole-custom-cname.conf within this file. Ideally, we want to preserve these hashes between instances of the container.
+
 ###### SSH Keys Directory
 `/root/.ssh/ - READ ONLY*`<br />
 SSH Keys must be configured and in place before the container is run for the first time. Without this, the initial run will try to generate keys. Without persisting this directory, the container continue to generate new keys with each run and so will be unable to connect to the remote host. Review the [SSH Keys section](#ssh-keys) below.
@@ -115,7 +120,5 @@ Alternatively, if you have OpenSSH on your system already, you can use that. You
 This assumes that the key generated is indeed located at `/tmp/id_rsa.pub`, that the remote username is `gravitysync` and that the remote system is located at `192.168.0.1`.
 
 #### TO DO
- - Persist MD5 files when upgrading containers<br />
- - Integrate a health check<br />
  - Integrate more error detection during configuration<br />
  - Write a shell script to test the built container

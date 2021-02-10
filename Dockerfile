@@ -56,20 +56,25 @@ RUN             apk --update add curl && \
 FROM            baseenvironment as prodbuildenvironment
 
 COPY            configure.sh /usr/local/bin/configure.sh
+COPY            missionreport.sh /usr/local/bin/missionreport.sh
 COPY            prelaunch.sh /usr/local/bin/prelaunch.sh
 COPY            startup.sh /usr/local/bin/startup.sh
 COPY            --from=buildenvironment /root/gravity-sync/ /root/gravity-sync/
 
 WORKDIR         /root/gravity-sync/
 
-RUN             apk --update add rsync sqlite docker-cli && \
+RUN             apk --update add rsync sqlite docker-cli util-linux && \
                 rm -rf /var/lib/apt/lists/* && \
                 rm /var/cache/apk/* && \
                 echo 'echo "Git is not required"' > /usr/local/bin/git && \
                 chmod +x /usr/local/bin/git && \
                 chmod +x /usr/local/bin/configure.sh && \
+                chmod +x /usr/local/bin/missionreport.sh && \
                 chmod +x /usr/local/bin/prelaunch.sh && \
                 chmod +x /usr/local/bin/startup.sh
+
+HEALTHCHECK     --interval=5m --timeout=60s --start-period=10s \
+                CMD /usr/local/bin/missionreport.sh
 
 ENTRYPOINT      ["/tini", "--"]
 CMD             ["/usr/local/bin/startup.sh"]
