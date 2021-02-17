@@ -65,15 +65,16 @@ createConfigFile()
 {
     rm -rf /root/gravity-sync/gravity-sync.conf
     addToConfigFile "REMOTE_HOST" ${REMOTE_HOST}
+    addToConfigFile "SSH_PORT" ${REMOTE_SSH_PORT}
     addToConfigFile "REMOTE_USER" ${REMOTE_USER}
     addToConfigFile "PH_IN_TYPE" ${LOCAL_HOST_TYPE}
     addToConfigFile "RH_IN_TYPE" ${REMOTE_HOST_TYPE}
     addToConfigFile "PIHOLE_DIR" ${LOCAL_PIHOLE_DIR}
     addToConfigFile "RIHOLE_DIR" ${REMOTE_PIHOLE_DIR}
+    addToConfigFile "DNSMAQ_DIR" ${LOCAL_DNSMASQ_DIR}
+    addToConfigFile "RNSMAQ_DIR" ${REMOTE_DNSMASQ_DIR}
     addToConfigFile "PIHOLE_BIN" ${LOCAL_PIHOLE_BIN}
     addToConfigFile "RIHOLE_BIN" ${REMOTE_PIHOLE_BIN}
-    addToConfigFile "PH_IN_TYPE" ${LOCAL_PH_INSTALL_TYPE}
-    addToConfigFile "RH_IN_TYPE" ${REMOTE_PH_INSTALL_TYPE}
     addToConfigFile "DOCKER_BIN" ${LOCAL_DOCKER_BIN}
     addToConfigFile "ROCKER_BIN" ${REMOTE_DOCKER_BIN}
     addToConfigFile "FILE_OWNER" ${LOCAL_FILE_OWNER}
@@ -89,8 +90,6 @@ createConfigFile()
     addToConfigFile "ROOT_CHECK_AVOID" ${ROOT_CHECK_AVOID}
     addToConfigFile "BACKUP_RETAIN" ${BACKUP_RETAIN}
     addToConfigFile "SSH_PKIF" ${SSH_PKIF}
-    addToConfigFile "PH_IN_TYPE" ${LOCAL_PH_INSTALL_TYPE}
-    addToConfigFile "RH_IN_TYPE" ${REMOTE_PH_INSTALL_TYPE}
 }
 
 addToConfigFile()

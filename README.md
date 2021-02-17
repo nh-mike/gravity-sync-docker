@@ -15,35 +15,38 @@ Pre-generate your SSH keys and mount them into the container. Follow the instruc
 
 #### Configuration of the container
 For instructions on how to configure the Gravity Sync service, please see https://github.com/vmstan/gravity-sync<br />
-It is important to note that in the interests of making configuration values more sensical to the layman, not all setting names in this "Docker Image" are identical to those in "Vanialla Gravity Sync". You can see these changes marked yellow in the table below. Simply, the defined Environmental variables are mapped to the settings name upon the container's first run (install run) when the container builds the configuration file. Please do not try to mount your own configuration file as this will cause failure of the container.
+It is important to note that in the interests of making configuration values more sensical to most people, not all setting names in this "Docker Image" are identical to those in "Vanialla Gravity Sync". You can see these changes marked with an explaimation mark in the table below. Simply, the defined Environmental variables are mapped to the settings name upon the container's first run (install run) when the container builds the configuration file. Please do not try to mount your own configuration file as this will cause failure of the container.
 
 || Vanilla GS | Docker Image |
 | ------ | ------ | ------ |
-|🟩|REMOTE_HOST|REMOTE_HOST|
-|🟩|REMOTE_USER|REMOTE_USER|
-|🟨|PH_IN_TYPE|LOCAL_HOST_TYPE|
-|🟨|RH_IN_TYPE|REMOTE_HOST_TYPE|
-|🟨|PIHOLE_DIR|LOCAL_PIHOLE_DIR|
-|🟨|RIHOLE_DIR|REMOTE_PIHOLE_DIR|
-|🟨|PIHOLE_BIN|LOCAL_PIHOLE_BIN|
-|🟨|RIHOLE_BIN|REMOTE_PIHOLE_BIN|
-|🟨|PH_IN_TYPE|LOCAL_PH_INSTALL_TYPE|
-|🟨|RH_IN_TYPE|REMOTE_PH_INSTALL_TYPE|
-|🟨|DOCKER_BIN|LOCAL_DOCKER_BIN|
-|🟨|ROCKER_BIN|REMOTE_DOCKER_BIN|
-|🟨|FILE_OWNER|LOCAL_FILE_OWNER|
-|🟨|RILE_OWNER|REMOTE_FILE_OWNER|
-|🟨|DOCKER_CON|LOCAL_DOCKER_CON|
-|🟨|ROCKER_CON|REMOTE_DOCKER_CON|
-|🟩|GRAVITY_FI|GRAVITY_FI|
-|🟩|CUSTOM_DNS|CUSTOM_DNS|
-|🟩|VERIFY_PASS|VERIFY_PASS|
-|🟩|SKIP_CUSTOM|SKIP_CUSTOM|
-|🟩|DATE_OUTPUT|DATE_OUTPUT|
-|🟩|PING_AVOID|PING_AVOID|
-|🟩|ROOT_CHECK_AVOID|ROOT_CHECK_AVOID|
-|🟩|BACKUP_RETAIN|BACKUP_RETAIN|
-|🟩|SSH_PKIF|SSH_PKIF|
+|:heavy_check_mark:|REMOTE_HOST|REMOTE_HOST|
+|:exclamation:|SSH_PORT|REMOTE_SSH_PORT|
+|:heavy_check_mark:|REMOTE_USER|REMOTE_USER|
+|:exclamation:|PH_IN_TYPE|LOCAL_HOST_TYPE|
+|:exclamation:|RH_IN_TYPE|REMOTE_HOST_TYPE|
+|:exclamation:|PIHOLE_DIR|LOCAL_PIHOLE_DIR|
+|:exclamation:|RIHOLE_DIR|REMOTE_PIHOLE_DIR|
+|:exclamation:|DNSMAQ_DIR|LOCAL_DNSMASQ_DIR|
+|:exclamation:|RNSMAQ_DIR|REMOTE_DNSMASQ_DIR|
+|:exclamation:|PIHOLE_BIN|LOCAL_PIHOLE_BIN|
+|:exclamation:|RIHOLE_BIN|REMOTE_PIHOLE_BIN|
+|:exclamation:|PH_IN_TYPE|LOCAL_PH_INSTALL_TYPE|
+|:exclamation:|RH_IN_TYPE|REMOTE_PH_INSTALL_TYPE|
+|:exclamation:|DOCKER_BIN|LOCAL_DOCKER_BIN|
+|:exclamation:|ROCKER_BIN|REMOTE_DOCKER_BIN|
+|:exclamation:|FILE_OWNER|LOCAL_FILE_OWNER|
+|:exclamation:|RILE_OWNER|REMOTE_FILE_OWNER|
+|:exclamation:|DOCKER_CON|LOCAL_DOCKER_CON|
+|:exclamation:|ROCKER_CON|REMOTE_DOCKER_CON|
+|:heavy_check_mark:|GRAVITY_FI|GRAVITY_FI|
+|:heavy_check_mark:|CUSTOM_DNS|CUSTOM_DNS|
+|:heavy_check_mark:|VERIFY_PASS|VERIFY_PASS|
+|:heavy_check_mark:|SKIP_CUSTOM|SKIP_CUSTOM|
+|:heavy_check_mark:|DATE_OUTPUT|DATE_OUTPUT|
+|:heavy_check_mark:|PING_AVOID|PING_AVOID|
+|:heavy_check_mark:|ROOT_CHECK_AVOID|ROOT_CHECK_AVOID|
+|:heavy_check_mark:|BACKUP_RETAIN|BACKUP_RETAIN|
+|:heavy_check_mark:|SSH_PKIF|SSH_PKIF|
 
 #### Docker Compose example:
 ```

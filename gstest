@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+docker-compose -f $(realpath $0)/docker-testenvironment-compose.yml down --remove-orphans
+rm -rf /tmp/gravitysynctest
+mkdir -p /tmp/gravitysynctest/.ssh/
+docker run -it -v "/tmp/gravitysynctest/:/tmp/gravitysynctest/.ssh:rw" --rm alpine:latest apk --update add openssh-client && ssh-keygen -q -t rsa -f /tmp/gravitysynctest/.ssh/id_rsa -N ''
+docker-compose -f $(realpath $0)/docker-testenvironment-compose.yml up -d
+#echo 'Waiting 10 seconds'
+#sleep 10
+docker exec -it ssh sh -c 'sudo sed -i "s/gravitysync ALL=(ALL) ALL/gravitysync ALL=(ALL) NOPASSWD: ALL/" /etc/sudoers'
+docker exec -it ssh apk add sqlite rsync docker
+
+docker exec -it gravitysynctest ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa -p 2222 gravitysync@172.31.255.2 exit 0
+echo "127.0.0.1 dnstest" > /tmp/gravitysynctest/pihole1/config/pihole/custom.list
+docker exec -it pihole1 /usr/local/bin/pihole restartdns
+echo 'Waiting 10 seconds after PiHole DNS restart'
+sleep 10
+
+host -t A dnstest 172.31.255.3
+docker exec -it gravitysynctest /root/gravity-sync/gravity-sync.sh smart
+host -t A dnstest 172.31.255.4
+docker-compose -f $(realpath $0)/docker-testenvironment-compose.yml down --remove-orphans
+rm -rf /tmp/gravitysynctest
+
+
+echo "The test has succeeded"

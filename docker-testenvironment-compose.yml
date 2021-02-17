@@ -1,0 +1,106 @@
+version: "3.4"
+
+services:
+  ssh:
+    image: "linuxserver/openssh-server:latest"
+    container_name: "ssh"
+    restart: "unless-stopped"
+    hostname: "ssh"
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "ETC/UTC"
+#      PUBLIC_KEY: "yourpublickey" #optional
+      PUBLIC_KEY_FILE: "/tmp/gravitysynctest/.ssh/id_rsa.pub" #optional
+#      PUBLIC_KEY_DIR: "/tmp/gravitysynctest/.ssh/" #optional
+      SUDO_ACCESS: "true"
+      PASSWORD_ACCESS: "true"
+      USER_PASSWORD: "password"
+#      USER_PASSWORD_FILE: "/path/to/file" #optional
+      USER_NAME: "gravitysync" #optional
+    networks:
+      primary:
+        ipv4_address: "172.31.255.2"
+    volumes:
+      - "/tmp/gravitysynctest/:/tmp/gravitysynctest/:rw"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  pihole1:
+    image: "pihole/pihole:latest"
+    container_name: "pihole1"
+    restart: "unless-stopped"
+    environment:
+      TZ: ETC/UTC
+      DNS1: "1.1.1.1"
+      DNSSEC: "True"
+      IPV6: "False"
+    networks:
+      primary:
+        ipv4_address: "172.31.255.3"
+    dns:
+      - "1.1.1.1"
+    volumes:
+       - "/tmp/gravitysynctest/pihole1/config/dnsmasq.d/:/etc/dnsmasq.d/:rw"
+       - "/tmp/gravitysynctest/pihole1/config/pihole/:/etc/pihole/:rw"
+       - "/tmp/gravitysynctest/pihole1/logs/:/var/log/:rw"
+
+
+  pihole2:
+    image: "pihole/pihole:latest"
+    container_name: "pihole2"
+    restart: "unless-stopped"
+    environment:
+      TZ: ETC/UTC
+      DNS1: "1.1.1.1"
+      DNSSEC: "True"
+      IPV6: "False"
+    networks:
+      primary:
+        ipv4_address: "172.31.255.4"
+    dns:
+      - "1.1.1.1"
+    volumes:
+       - "/tmp/gravitysynctest/pihole2/config/dnsmasq.d/:/etc/dnsmasq.d/:rw"
+       - "/tmp/gravitysynctest/pihole2/config/pihole/:/etc/pihole/:rw"
+       - "/tmp/gravitysynctest/pihole2/logs/:/var/log/:rw"
+
+
+  gravitysynctest:
+    image: "docker_gravitysync:latest"
+    container_name: "gravitysynctest"
+    restart: "unless-stopped"
+    environment:
+      TZ: ETC/UTC
+      REMOTE_HOST: "172.31.255.2"
+      REMOTE_SSH_PORT: "2222"
+      REMOTE_USER: "gravitysync"
+      LOCAL_INSTALL_TYPE: "docker"
+      REMOTE_INSTALL_TYPE: "docker"
+      LOCAL_PIHOLE_DIR: "/tmp/gravitysynctest/pihole2/config/pihole/"
+      REMOTE_PIHOLE_DIR: "/tmp/gravitysynctest/pihole1/config/pihole/"
+      LOCAL_FILE_OWNER: "root:root"
+      REMOTE_FILE_OWNER: "root:root"
+      LOCAL_DOCKER_CON: "pihole2"
+      REMOTE_DOCKER_CON: "pihole1"
+      SYNC_FREQUENCY: "30"
+      BACKUP_HOUR: "4"
+      DEBUG: "true"
+    networks:
+      primary:
+        ipv4_address: "172.31.255.5"
+    volumes:
+      - "/tmp/gravitysynctest/gravitysync/logs/gravity-sync.log:/tmp/gravitysynctest/gravitysync/logs/gravity-sync.log:rw"
+      - "/tmp/gravitysynctest/gravitysync/logs/gravity-sync.cron:/tmp/gravitysynctest/gravitysync/logs/gravity-sync.cron:rw"
+      - "/tmp/gravitysynctest/gravitysync/data/backup/:/tmp/gravitysynctest/gravitysync/backup/:rw"
+      - "/tmp/gravitysynctest/.ssh/:/root/.ssh/:rw"
+      - "/tmp/gravitysynctest/pihole2/:/tmp/gravitysynctest/pihole2:rw"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+networks:
+  primary:
+    driver: bridge
+#    driver_opts:
+#      parent: enp3s0.2
+    ipam:
+      config:
+        - subnet: "172.31.255.0/24"

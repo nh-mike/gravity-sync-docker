@@ -1,3 +1,11 @@
+## [3.3.2] - 2021-02-17
+### Added
+- Added gsbuild, gstest and docker-compose-testenvironment.yml for scripted build and testing
+- Added doocumentation and config options for remote SSH port and DNSMASQ directory locations
+
+### Changed
+- Update to GravitySync version 3.3.2
+
 ## [3.2.6.1] - 2021-02-08
 ### Added
 - Added section to Readme to inform users to persist gravity-sync.md5
