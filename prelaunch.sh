@@ -37,7 +37,10 @@ if readYesNo; then
     ssh -t -o "StrictHostKeyChecking no" ${username}@${remote_host} ' \
         sudo adduser gravitysync && \
         sudo usermod -a -G sudo gravitysync && \
-        sudo usermod -a -G docker gravitysync'
+        sudo usermod -a -G docker gravitysync && \
+        umask u=r,g=r,o= && \
+        echo "gravitysync ALL=(ALL) NOPASSWD:ALL" | \
+        sudo tee /etc/sudoers.d/gravitysync > /dev/null'
     echo "The remote system is configured as recomended"
 else
     echo "Would you like to use the root account? NOT RECOMENDED!"
@@ -53,6 +56,11 @@ ssh-keygen -t rsa
 
 echo "We will now copy the SSH Key to the remote system. Please provide a password."
 ssh-copy-id ${remote_user}@${remote_host}
+
+if [ $remote_user == "gravitysync" ]; then
+    echo "Disabling password login for gravitysync user"
+    ssh ${remote_user}@${remote_host} sudo passwd -d gravitysync
+fi
 
 echo "Installing dependencies rsync, sqlite3, git and verifying system"
 ssh -o BatchMode=yes -p${remote_port} ${remote_user}@${remote_host} '\
