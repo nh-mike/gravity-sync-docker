@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if "${DEBUG}" == "true";
+if [ "${DEBUG}" = "true" ];
 then
     set -x
     set -v
