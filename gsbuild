@@ -3,4 +3,4 @@
 docker stop gravitysync
 docker rm gravitysync
 docker image prune -a --force
-docker build -f $(realpath $0)/Dockerfile $(realpath $0) --tag docker_gravitysync:latest
+docker build -f $(dirname $0)/Dockerfile $(dirname $0) --tag docker_gravitysync:latest
