@@ -72,12 +72,13 @@ gravitysync:
     BACKUP_HOUR: "4"
     DEBUG: "true"
   volumes:
-    - "/docker/gravity-sync/logs/gravity-sync.log:/root/gravity-sync/gravity-sync.log:rw"
-    - "/docker/gravity-sync/logs/gravity-sync.cron:/root/gravity-sync/gravity-sync.cron:rw"
+    - "/docker/gravity-sync/logs/gravity-sync.log:/root/gravity-sync/logs/gravity-sync.log:rw"
+    - "/docker/gravity-sync/logs/gravity-sync.cron:/root/gravity-sync/logs/gravity-sync.cron:rw"
     - "/docker/gravity-sync/data/backup:/root/gravity-sync/backup/:rw"
     - "/docker/gravity-sync/data/gravity-sync.md5:/root/gravity-sync/gravity-sync.md5:rw"
+    - "/docker/gravity-sync/data/.ssh/:/root/.ssh/:rw"
     - "/docker/pihole/config/pihole:/etc/pihole/:rw"
-    - "/var/run/docker.sock:/var/run/docker.sock:rw"
+    - "/var/run/docker.sock:/var/run/docker.sock:ro"
 ```
 
 #### Mount Points
