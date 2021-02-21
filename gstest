@@ -3,7 +3,10 @@ set -e
 
 #Clean up testing environment (In case we previously failed testing)
 docker-compose -f $(dirname $0)/docker-testenvironment-compose.yml down --remove-orphans
-rm -rf /tmp/gravitysynctest
+if ! $(rm -rf /tmp/gravitysynctest > /dev/null 2>&1); then
+    echo "Need root priveleges to reset testing directory"
+    sudo rm -rf /tmp/gravitysynctest
+fi
 
 #Create the testing volume directory and temporary SSH keys
 mkdir -p /tmp/gravitysynctest/.ssh/
@@ -20,7 +23,7 @@ docker exec -it ssh apk add sqlite rsync docker
 docker exec -it gravitysynctest ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa -p 2222 gravitysync@172.31.255.2 exit 0
 
 #Insert a new custom DNS record in the "primary" pihole and test it
-echo "127.0.0.1 dnstest" > /tmp/gravitysynctest/pihole1/config/pihole/custom.list
+docker exec -it pihole1 sh -c 'echo "127.0.0.1 dnstest" > /etc/pihole/custom.list'
 docker exec -it pihole1 /usr/local/bin/pihole restartdns
 echo 'Waiting 10 seconds after PiHole DNS restart'
 sleep 10
@@ -32,6 +35,8 @@ host -t A dnstest 172.31.255.4
 
 #Clean up the testing environment
 docker-compose -f $(dirname $0)/docker-testenvironment-compose.yml down --remove-orphans
-rm -rf /tmp/gravitysynctest
+if ! $(rm -rf /tmp/gravitysynctest > /dev/null 2>&1); then
+    sudo rm -rf /tmp/gravitysynctest
+fi
 
 echo "The test has succeeded"
