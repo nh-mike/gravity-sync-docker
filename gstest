@@ -34,7 +34,7 @@ sleep 10
 host -t A dnstest 172.31.255.3
 
 #Run the sync to the "secondary" pihole and test it
-docker exec -it gravitysynctest /root/gravity-sync/gravity-sync.sh smart
+docker exec -it gravitysynctest /root/gravity-sync/gravity-sync.sh pull
 host -t A dnstest 172.31.255.4
 
 #Clean up the testing environment
