@@ -68,7 +68,7 @@ gravitysync:
     REMOTE_PH_INSTALL_TYPE: "docker"
     LOCAL_FILE_OWNER: "root:root"
     REMOTE_FILE_OWNER: "root:root"
-    SYNC_FREQUENCY: "30"
+    SYNC_FREQUENCY: "15"
     BACKUP_HOUR: "4"
     DEBUG: "true"
   volumes:
