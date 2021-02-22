@@ -72,8 +72,7 @@ gravitysync:
     BACKUP_HOUR: "4"
     DEBUG: "true"
   volumes:
-    - "/docker/gravity-sync/logs/gravity-sync.log:/root/gravity-sync/logs/gravity-sync.log:rw"
-    - "/docker/gravity-sync/logs/gravity-sync.cron:/root/gravity-sync/logs/gravity-sync.cron:rw"
+    - "/docker/gravity-sync/logs/:/root/gravity-sync/logs/:rw"
     - "/docker/gravity-sync/data/backup:/root/gravity-sync/backup/:rw"
     - "/docker/gravity-sync/data/gravity-sync.md5:/root/gravity-sync/gravity-sync.md5:rw"
     - "/docker/gravity-sync/data/.ssh/:/root/.ssh/:rw"
