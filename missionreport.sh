@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if "${DEBUG}" == "true";
+if [ "${DEBUG}" = "true" ];
 then
         set -x
         set -v
@@ -31,7 +31,7 @@ nextfilemoddate=$(( ${filemoddate} + ${tolerance} ))
 now=`date +%s`
 
 if [[ ${nextfilemoddate} -lt ${now} ]]; then
-	echo "Failed to verify that GravitySync has run in the last ${SYNC_FREQUENCE} minutes"
+	echo "Failed to verify that GravitySync has run in the last ${SYNC_FREQUENCY} minutes"
 	exit 1
 fi
 
