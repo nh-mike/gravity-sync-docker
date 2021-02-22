@@ -52,8 +52,8 @@ It is important to note that in the interests of making configuration values mor
 ```
 gravitysync:
   build:
-    context: /docker/gravity-sync/build/
-    dockerfile: /docker/gravity-sync/build/gravitysync.dockerfile
+    context: /docker/gravity-sync-docker/
+    dockerfile: /docker/gravity-sync-docker/Dockerfile
   container_name: "gravitysync"
   restart: "unless-stopped"
   environment:
