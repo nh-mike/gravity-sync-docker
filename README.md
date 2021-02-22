@@ -40,6 +40,7 @@ It is important to note that in the interests of making configuration values mor
 |:exclamation:|ROCKER_CON|REMOTE_DOCKER_CON|
 |:heavy_check_mark:|GRAVITY_FI|GRAVITY_FI|
 |:heavy_check_mark:|CUSTOM_DNS|CUSTOM_DNS|
+|:heavy_check_mark:|INCLUDE_CNAME|INCLUDE_CNAME|
 |:heavy_check_mark:|VERIFY_PASS|VERIFY_PASS|
 |:heavy_check_mark:|SKIP_CUSTOM|SKIP_CUSTOM|
 |:heavy_check_mark:|DATE_OUTPUT|DATE_OUTPUT|
@@ -64,6 +65,8 @@ gravitysync:
     REMOTE_INSTALL_TYPE: "docker"
     LOCAL_PIHOLE_DIR: "/etc/pihole/"
     REMOTE_PIHOLE_DIR: "/docker/pihole/config/pihole/"
+    LOCAL_DNSMASQ_DIR: "/etc/dnsmasq.d/"
+    REMOTE_DNSMASQ_DIR: "/docker/pihole/config/dnsmasq/"
     LOCAL_PH_INSTALL_TYPE: "docker"
     REMOTE_PH_INSTALL_TYPE: "docker"
     LOCAL_FILE_OWNER: "root:root"
@@ -77,6 +80,7 @@ gravitysync:
     - "/docker/gravity-sync/data/gravity-sync.md5:/root/gravity-sync/gravity-sync.md5:rw"
     - "/docker/gravity-sync/data/.ssh/:/root/.ssh/:rw"
     - "/docker/pihole/config/pihole:/etc/pihole/:rw"
+    - "/docker/pihole/config/dnsmasq:/etc/dnsmasq.d/:rw"
     - "/var/run/docker.sock:/var/run/docker.sock:ro"
 ```
 
