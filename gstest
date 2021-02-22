@@ -1,16 +1,23 @@
 #!/bin/bash
+
+SCRIPT=`realpath $0`
+WORKDIR=`dirname $SCRIPT`
+TESTDIR="/tmp/gravitysynctest"
 set -e
 
 #Clean up testing environment (In case we previously failed testing)
-docker-compose -f $(realpath $0)/docker-testenvironment-compose.yml down --remove-orphans
-rm -rf /tmp/gravitysynctest
+docker-compose -f $WORKDIR/docker-testenvironment-compose.yml down --remove-orphans
+if ! $(rm -rf $TESTDIR > /dev/null 2>&1); then
+    echo "Need root priveleges to reset testing directory"
+    sudo rm -rf $TESTDIR
+fi
 
 #Create the testing volume directory and temporary SSH keys
-mkdir -p /tmp/gravitysynctest/.ssh/
-docker run -it -v "/tmp/gravitysynctest/:/tmp/gravitysynctest/.ssh:rw" --rm alpine:latest apk --update add openssh-client && ssh-keygen -q -t rsa -f /tmp/gravitysynctest/.ssh/id_rsa -N ''
+mkdir -p $TESTDIR/.ssh/
+docker run -it -v "$TESTDIR/:/tmp/gravitysynctest/.ssh:rw" --rm alpine:latest apk --update add openssh-client && ssh-keygen -q -t rsa -f /tmp/gravitysynctest/.ssh/id_rsa -N ''
 
 #Bring the testing environment online
-docker-compose -f $(realpath $0)/docker-testenvironment-compose.yml up -d
+docker-compose -f $WORKDIR/docker-testenvironment-compose.yml up -d
 
 #Prepare the SSH container to accommodate for  GravitySync's requirements
 docker exec -it ssh sh -c 'sudo sed -i "s/gravitysync ALL=(ALL) ALL/gravitysync ALL=(ALL) NOPASSWD: ALL/" /etc/sudoers'
@@ -20,18 +27,20 @@ docker exec -it ssh apk add sqlite rsync docker
 docker exec -it gravitysynctest ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa -p 2222 gravitysync@172.31.255.2 exit 0
 
 #Insert a new custom DNS record in the "primary" pihole and test it
-echo "127.0.0.1 dnstest" > /tmp/gravitysynctest/pihole1/config/pihole/custom.list
+docker exec -it pihole1 sh -c 'echo "127.0.0.1 dnstest" > /etc/pihole/custom.list'
 docker exec -it pihole1 /usr/local/bin/pihole restartdns
 echo 'Waiting 10 seconds after PiHole DNS restart'
 sleep 10
 host -t A dnstest 172.31.255.3
 
 #Run the sync to the "secondary" pihole and test it
-docker exec -it gravitysynctest /root/gravity-sync/gravity-sync.sh smart
+docker exec -it gravitysynctest /root/gravity-sync/gravity-sync.sh pull
 host -t A dnstest 172.31.255.4
 
 #Clean up the testing environment
-docker-compose -f $(realpath $0)/docker-testenvironment-compose.yml down --remove-orphans
-rm -rf /tmp/gravitysynctest
+docker-compose -f $WORKDIR/docker-testenvironment-compose.yml down --remove-orphans
+if ! $(rm -rf $TESTDIR > /dev/null 2>&1); then
+    sudo rm -rf $TESTDIR
+fi
 
 echo "The test has succeeded"
