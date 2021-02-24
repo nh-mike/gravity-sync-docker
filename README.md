@@ -138,6 +138,5 @@ This version includes various neccesary configuration changes, including the cha
 This version also adds two new configuration options, LOCAL_PH_INSTALL_TYPE and REMOTE_PH_INSTALL_TYPE
 
 #### TO DO
- - Integrate more error detection during configuration<br />
- - Write a shell script to test the built container
+ - Integrate more error detection during configuration
 
