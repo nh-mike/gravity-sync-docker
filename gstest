@@ -20,7 +20,7 @@ docker run -it -v "$TESTDIR/:/tmp/gravitysynctest/.ssh:rw" --rm alpine:latest ap
 docker-compose -f $WORKDIR/docker-testenvironment-compose.yml up -d
 
 #Prepare the SSH container to accommodate for  GravitySync's requirements
-docker exec -it ssh sh -c 'sudo sed -i "s/gravitysync ALL=(ALL) ALL/gravitysync ALL=(ALL) NOPASSWD: ALL/" /etc/sudoers'
+docker exec -it ssh sh -c 'chmod +w /etc/sudoers && sudo sed -i "s/^gravitysync.*$/gravitysync ALL=(ALL) NOPASSWD: ALL/" /etc/sudoers'
 docker exec -it ssh apk add sqlite rsync docker
 
 #Add the SSH container's host key to the GravitySync container's local store
