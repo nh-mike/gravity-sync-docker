@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if "${DEBUG}" == "true";
+if [ "${DEBUG}" = "true" ];
 then
     set -x
     set -v
@@ -85,6 +85,7 @@ createConfigFile()
     addToConfigFile "CUSTOM_DNS" ${CUSTOM_DNS}
     addToConfigFile "VERIFY_PASS" ${VERIFY_PASS}
     addToConfigFile "SKIP_CUSTOM" ${SKIP_CUSTOM}
+    addToConfigFile "INCLUDE_CNAME" ${INCLUDE_CNAME}
     addToConfigFile "DATE_OUTPUT" ${DATE_OUTPUT}
     addToConfigFile "PING_AVOID" ${PING_AVOID}
     addToConfigFile "ROOT_CHECK_AVOID" ${ROOT_CHECK_AVOID}
