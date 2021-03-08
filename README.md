@@ -67,7 +67,7 @@ gravitysync:
     REMOTE_PIHOLE_DIR: "/docker/pihole/config/pihole/"
     LOCAL_DNSMASQ_DIR: "/etc/dnsmasq.d/"
     REMOTE_DNSMASQ_DIR: "/docker/pihole/config/dnsmasq/"
-    LOCAL_PH_INSTALL_TYPE: "docker"
+    LOCAL_PH_INSTALL_TYPE: "default"
     REMOTE_PH_INSTALL_TYPE: "docker"
     LOCAL_FILE_OWNER: "root:root"
     REMOTE_FILE_OWNER: "root:root"
