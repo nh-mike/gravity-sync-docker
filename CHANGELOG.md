@@ -1,3 +1,7 @@
+## [3.4.1] - 2021-04-06
+### Changed
+- Update to GravitySync version 3.4.0
+
 ## [3.3.2] - 2021-02-17
 ### Added
 - Added gsbuild, gstest and docker-testenvironment-compose.yml for scripted build and testing
@@ -19,7 +23,7 @@
 ### Changed
 - Update to GravitySync version 3.2.6
 
-## [3.2.5.1] - 2021 -02 -04
+## [3.2.5.1] - 2021-02-04
 ### Added
 - Item in todo in Readme to document gravity-sync.md5 persist requirements
 - Add placeholder for Git when running GravitySync Info
