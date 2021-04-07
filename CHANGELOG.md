@@ -1,3 +1,7 @@
+## [3.4.2] - 2021-04-07
+### Changed
+- Update to GravitySync version 3.4.2
+
 ## [3.4.1] - 2021-04-07
 ### Changed
 - Update to GravitySync version 3.4.1
