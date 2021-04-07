@@ -34,7 +34,7 @@ ENV             GS_INSTALL="secondary" \
                 PING_AVOID="" \
                 ROOT_CHECK_AVOID="" \
                 BACKUP_RETAIN="" \
-                SSH_PKIF=""
+                SSH_PKIF="" \
                 BACKUP_TIMEOUT="60"
 
 ADD             https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-static /tini
