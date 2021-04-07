@@ -1,4 +1,11 @@
-## [3.4.1] - 2021-04-06
+## [3.4.1] - 2021-04-07
+### Changed
+- Update to GravitySync version 3.4.1
+- Fixed bug where passwordless sudo may not be granted in SSH container during testing
+- Tidy up docker compose file
+- Add support for new BACKUP_TIMEOUT option
+
+## [3.4.0] - 2021-04-06
 ### Changed
 - Update to GravitySync version 3.4.0
 

@@ -3,7 +3,7 @@ FROM            alpine:3 as baseenvironment
 LABEL           maintainer Michael Thompson <mike@michael-thompson.net>
 
 ENV             GS_INSTALL="secondary" \
-                GS_VERSION="3.4.0" \
+                GS_VERSION="3.4.1" \
                 GENERATE_SSH_CERTS="true" \
                 TINI_VERSION="0.19.0" \
                 DEBUG="false" \
@@ -35,6 +35,7 @@ ENV             GS_INSTALL="secondary" \
                 ROOT_CHECK_AVOID="" \
                 BACKUP_RETAIN="" \
                 SSH_PKIF=""
+                BACKUP_TIMEOUT="60"
 
 ADD             https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-static /tini
 

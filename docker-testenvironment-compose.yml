@@ -10,14 +10,9 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: "ETC/UTC"
-#      PUBLIC_KEY: "yourpublickey" #optional
-      PUBLIC_KEY_FILE: "/tmp/gravitysynctest/.ssh/id_rsa.pub" #optional
-#      PUBLIC_KEY_DIR: "/tmp/gravitysynctest/.ssh/" #optional
+      PUBLIC_KEY_FILE: "/tmp/gravitysynctest/.ssh/id_rsa.pub"
       SUDO_ACCESS: "true"
-      PASSWORD_ACCESS: "true"
-      USER_PASSWORD: "password"
-#      USER_PASSWORD_FILE: "/path/to/file" #optional
-      USER_NAME: "gravitysync" #optional
+      USER_NAME: "gravitysync"
     networks:
       primary:
         ipv4_address: "172.31.255.2"
@@ -99,8 +94,6 @@ services:
 networks:
   primary:
     driver: bridge
-#    driver_opts:
-#      parent: enp3s0.2
     ipam:
       config:
         - subnet: "172.31.255.0/24"

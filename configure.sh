@@ -91,6 +91,7 @@ createConfigFile()
     addToConfigFile "ROOT_CHECK_AVOID" ${ROOT_CHECK_AVOID}
     addToConfigFile "BACKUP_RETAIN" ${BACKUP_RETAIN}
     addToConfigFile "SSH_PKIF" ${SSH_PKIF}
+    addToConfigFile "BACKUP_TIMEOUT" ${BACKUP_TIMEOUT}
 }
 
 addToConfigFile()

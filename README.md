@@ -48,6 +48,7 @@ It is important to note that in the interests of making configuration values mor
 ||ROOT_CHECK_AVOID|ROOT_CHECK_AVOID|
 ||BACKUP_RETAIN|BACKUP_RETAIN|
 ||SSH_PKIF|SSH_PKIF|
+||BACKUP_TIMEOUT|BACKUP_TIMEOUT|
 
 #### Docker Compose example:
 ```
