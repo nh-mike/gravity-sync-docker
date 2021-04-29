@@ -1,3 +1,7 @@
+## [3.4.4] - 2021-04-29
+###Changed
+- Update to GravitySync version 3.4.4
+
 ## [3.4.2.1] - 2021-04-25
 ### Added
 - Initial support for building ARM based images
