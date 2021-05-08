@@ -1,3 +1,23 @@
+## [3.4.4.1] - 2021-05-08
+###Changed
+- Massive changes related to building and testing
+    - Odrered scripts into appropreate directories
+    - Tidy up script code where multiple scripting styles were used
+    - Test script will now build an x86_64 image as a test stage
+        - No need to run cibuild before running test
+    - Run cibuild for a production ready image
+        - Requires a --version flag (i.e. --version 1.2.3)
+        - Does not require --platform tag unless intending to build single platform
+
+- Install Tini Init system from a script picking build based on current architecture
+
+###Added
+- Implement support for building ARM based images
+- Bootstrap script for installing build requirements
+
+##Removed
+- Previous initial support for building ARM based images
+
 ## [3.4.4] - 2021-04-29
 ###Changed
 - Update to GravitySync version 3.4.4

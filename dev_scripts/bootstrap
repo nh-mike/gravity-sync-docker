@@ -1,0 +1,98 @@
+#!/bin/bash
+
+CURRENTBUILDXVER=`ls ~/.docker/cli-plugins/buildx* | sed -E 's/^.*\/buildx-v([0-9\.]+).linux-amd64/\1/'`
+NEWBUILDXVER=`curl --silent "https://api.github.com/repos/docker/buildx/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/'`
+DOWNLOADURL='https://github.com/docker/buildx/releases/download/v'${NEWBUILDXVER}'/buildx-v'${NEWBUILDXVER}'.linux-amd64'
+
+#vercomp and testvercomp Functions thanks to Dennis Williamson
+#https://stackoverflow.com/a/4025065
+vercomp () {
+    if [[ $1 == $2 ]];
+    then
+        return 0
+    fi
+
+    local IFS=.
+    local i ver1=($1) ver2=($2)
+
+    # fill empty fields in ver1 with zeros
+    for ((i=${#ver1[@]}; i<${#ver2[@]}; i++));
+    do
+        ver1[i]=0
+    done
+
+    for ((i=0; i<${#ver1[@]}; i++));
+    do
+        if [[ -z ${ver2[i]} ]];
+        then
+            # fill empty fields in ver2 with zeros
+            ver2[i]=0
+        fi
+
+        if ((10#${ver1[i]} > 10#${ver2[i]}));
+        then
+            return 1
+        fi
+
+        if ((10#${ver1[i]} < 10#${ver2[i]}));
+        then
+            return 2
+        fi
+
+    done
+    return 0
+}
+
+testvercomp () {
+    vercomp $1 $2
+    case $? in
+        0) op='=';;
+        1) op='>';;
+        2) op='<';;
+    esac
+
+    if [[ $op != $3 ]];
+    then
+        echo "FAIL: Expected '$3', Actual '$op', Arg1 '$1', Arg2 '$2'"
+    else
+        echo "Pass: '$1 $op $2'"
+    fi
+}
+
+
+#Determine if we need to install the BuildX Plugin
+if $(ls ~/.docker/cli-plugins/buildx* 1> /dev/null 2>&1);
+then
+    VERCMP=$(testvercomp ${NEWBUILDXVER} ${CURRENTBUILDXVER} '>')
+    if testvercomp ${NEWBUILDXVER} ${CURRENTBUILDXVER} '>';
+    then
+        DOUPGRADEBUILDX=true
+    else
+        DOUPGRADEBUILDX=false
+    fi
+else
+    DOUPGRADEBUILDX=true
+fi
+
+#Install BuildX if required
+if [ ${DOUPGRADEBUILDX} = true ];
+then
+    echo 'Upgrading BuildX'
+    rm -rf ~/.docker/cli-plugins/buildx*
+    wget ${DOWNLOADURL} -P ~/.docker/cli-plugins/
+fi
+
+#Install QEMU
+echo "Installing and Registering QEMU"
+sudo apt-get install qemu binfmt-support qemu-user-static -y
+#Register QEMU
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+# You can test QEMU by running the following;
+# docker run --rm -t arm64v8/ubuntu uname -m
+# which should provide the output "aarch64"
+
+docker run --rm --privileged docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64
+if $(!cat /proc/sys/fs/binfmt_misc/qemu-aarch64 | grep enabled 1>/dev/null 2>&1); then
+    echo "Failed to verify installation of qemu"
+    exit 1
+fi

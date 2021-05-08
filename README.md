@@ -1,6 +1,6 @@
 # Gravity Sync Docker
 
-These are the files required to run a Docker image running [Gravity Sync](https://github.com/vmstan/gravity-sync). Supports both X86/64 and ARM64. Arm versions are prepended with "arm-" such that the x86/64 version of latest would match the arm version arm-latest.
+These are the files required to run a Docker image running [Gravity Sync](https://github.com/vmstan/gravity-sync). Supports X86/64 in all tags, also supports ARM in the :dev tag.
 
 #### Before Running!
 If upgrading, then check the [Upgrade Instructions](#upgrade-instructions) for your intended release.<br />

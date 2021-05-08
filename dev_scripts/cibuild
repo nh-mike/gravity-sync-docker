@@ -1,0 +1,107 @@
+#!/bin/bash
+
+# The following is courtesy of the Stack Overflow Community
+# https://stackoverflow.com/a/4774063
+WORKDIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+WORKDIR=$(dirname "${WORKDIR}")
+
+PLATFORM="multipleplatform"
+
+# The following is courtesy of the Stack Overflow Community
+# https://stackoverflow.com/a/14203146
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case $key in
+        "--platform" )
+            PLATFORM="$2"
+            shift # past argument
+            shift # past value
+            ;;
+
+        "--version" )
+            VERSION="$2"
+            shift # past argument
+            shift # past value
+            ;;
+
+        *)
+            echo "Unknown Option"
+            exit 1
+        ;;
+    esac
+done
+
+# Do some checks now so if we fail we don't waste time
+case ${PLATFORM}
+in
+    "singleplatform" )
+        # Continue
+        ;;
+
+    "multipleplatform" )
+        if [ -z "${VERSION}" ];
+        then
+            echo "Please provide a version"
+            echo "${0} --version 1.2.3"
+            exit 1
+        fi
+        ;;
+
+    * )
+        echo "Unknown Platform Option Specified. Supported options are;"
+        echo "singleplatform"
+        echo "multipleplatform"
+        exit 1
+        ;;
+esac
+
+# Tidy Up
+docker stop gravitysync
+docker rm gravitysync
+docker buildx prune -a --force
+
+# Remove all dangling images except those specified
+for r in $(docker image ls --format {{.Repository}} --filter "dangling=true");
+do
+    case ${r}
+    in
+        "multiarch/qemu-user-static" | \
+        "moby/buildkit")
+            # Do not remove these images if they exist
+            ;;
+
+        * )
+            # As we are not forcefully removing, any images being used by containers will not be removed
+            docker rmi ${r} 2 &> /dev/null;
+            ;;
+    esac
+done
+
+# Create Builder
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+docker buildx create --name gravitysyncdockerbuilder
+docker buildx use gravitysyncdockerbuilder
+
+# Build
+case ${PLATFORM}
+in
+    "singleplatform" )
+        echo "Building Single Platform (x86_64) image"
+        # We first build a single platform image as we currently cannot load a multi-platform image into Docker
+        # https://github.com/docker/buildx/issues/59#issuecomment-616061869
+        docker buildx build -f ${WORKDIR}/Dockerfile --platform linux/amd64 -t docker_gravitysync:latest ${WORKDIR} --load
+        ;;
+
+    "multipleplatform" )
+        # It is quite alright to build linux/amd64 twice as it will use the cached platform build here
+        # https://github.com/docker/buildx/issues/59#issuecomment-667548900
+        echo "Building Multi-Platform image"
+        docker buildx build -f ${WORKDIR}/Dockerfile --platform linux/amd64,linux/arm,linux/arm64,linux/arm/v7 \
+            -t nhmike94/gravity-sync-docker:${VERSION} -t nhmike94/gravity-sync-docker:latest ${WORKDIR}
+
+        # Remove builder as we presume that the image has been built and pushed at this point
+        docker buildx rm gravitysyncdockerbuilder
+        ;;
+
+esac

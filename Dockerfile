@@ -37,11 +37,11 @@ ENV             GS_INSTALL="secondary" \
                 SSH_PKIF="" \
                 BACKUP_TIMEOUT="60"
 
-ADD             https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-static /tini
+COPY            ./container_scripts/install_tini.sh /usr/local/bin/install_tini.sh
 
-RUN             chmod +x /tini && \
-                apk --update add openssh sudo bash coreutils
-
+RUN             chmod +x /usr/local/bin/install_tini.sh && \
+                apk --update add openssh sudo bash coreutils && \
+                /usr/local/bin/install_tini.sh
 
 FROM            baseenvironment as buildenvironment
 
@@ -58,11 +58,12 @@ RUN             apk --update add curl && \
 
 FROM            baseenvironment as prodbuildenvironment
 
-COPY            configure.sh /usr/local/bin/configure.sh
-COPY            missionreport.sh /usr/local/bin/missionreport.sh
-COPY            prelaunch.sh /usr/local/bin/prelaunch.sh
-COPY            startup.sh /usr/local/bin/startup.sh
-COPY            upgradeCompatibilityChecks.sh /usr/local/bin/upgradeCompatibilityChecks.sh
+#COPY            configure.sh /usr/local/bin/configure.sh
+#COPY            missionreport.sh /usr/local/bin/missionreport.sh
+#COPY            prelaunch.sh /usr/local/bin/prelaunch.sh
+#COPY            startup.sh /usr/local/bin/startup.sh
+#COPY            upgradeCompatibilityChecks.sh /usr/local/bin/upgradeCompatibilityChecks.sh
+COPY            container_scripts/* /usr/local/bin/
 COPY            --from=buildenvironment /root/gravity-sync/ /root/gravity-sync/
 
 WORKDIR         /root/gravity-sync/

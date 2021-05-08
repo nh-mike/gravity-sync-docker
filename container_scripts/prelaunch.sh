@@ -19,7 +19,8 @@ echo "What is the hostname / IP of the remote host?"
 read remote_host;
 
 echo "Is the remote SSH server on port 22?"
-if readYesNo; then
+if readYesNo;
+then
     remote_port="22"
 else
     echo "What is the port of your remote SSH server?"
@@ -27,7 +28,8 @@ else
 fi
 
 echo "We recomend creating a gravitysync user on the remote system - would you like to do this?"
-if readYesNo; then
+if readYesNo;
+then
     #Connect and create user
     remote_user="gravitysync"
     echo "Please provide a management user with sudo privileges"
@@ -44,7 +46,8 @@ if readYesNo; then
     echo "The remote system is configured as recomended"
 else
     echo "Would you like to use the root account? NOT RECOMENDED!"
-    if !readYesNo; then
+    if !readYesNo;
+    then
         echo "What user would you like to connect to on the remote system?"
         echo "Please note that this user must be part of the sudo and docker groups, and must have passwordless sudo"
         read remote_user;
@@ -57,7 +60,8 @@ ssh-keygen -t rsa
 echo "We will now copy the SSH Key to the remote system. Please provide a password."
 ssh-copy-id ${remote_user}@${remote_host}
 
-if [ $remote_user == "gravitysync" ]; then
+if [ $remote_user == "gravitysync" ];
+then
     echo "Disabling password login for gravitysync user"
     ssh ${remote_user}@${remote_host} sudo passwd -d gravitysync
 fi
