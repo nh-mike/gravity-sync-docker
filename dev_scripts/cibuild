@@ -4,7 +4,7 @@
 # https://stackoverflow.com/a/4774063
 WORKDIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 WORKDIR=$(dirname "${WORKDIR}")
-
+PUSH=""
 PLATFORM="multipleplatform"
 
 # The following is courtesy of the Stack Overflow Community
@@ -21,6 +21,15 @@ do
 
         "--version" )
             VERSION="$2"
+            shift # past argument
+            shift # past value
+            ;;
+
+        "--push" )
+            if [ "${2}" == "yes" ];
+            then
+                PUSH=" --push"
+            fi
             shift # past argument
             shift # past value
             ;;
@@ -90,15 +99,15 @@ in
         echo "Building Single Platform (x86_64) image"
         # We first build a single platform image as we currently cannot load a multi-platform image into Docker
         # https://github.com/docker/buildx/issues/59#issuecomment-616061869
-        docker buildx build -f ${WORKDIR}/Dockerfile --platform linux/amd64 -t docker_gravitysync:latest ${WORKDIR} --load
+        docker buildx build ${WORKDIR} -f ${WORKDIR}/Dockerfile --platform linux/amd64 -t docker_gravitysync:latest --load
         ;;
 
     "multipleplatform" )
         # It is quite alright to build linux/amd64 twice as it will use the cached platform build here
         # https://github.com/docker/buildx/issues/59#issuecomment-667548900
         echo "Building Multi-Platform image"
-        docker buildx build -f ${WORKDIR}/Dockerfile --platform linux/amd64,linux/arm,linux/arm64,linux/arm/v7 \
-            -t nhmike94/gravity-sync-docker:${VERSION} -t nhmike94/gravity-sync-docker:latest ${WORKDIR}
+        docker buildx build ${WORKDIR} -f ${WORKDIR}/Dockerfile --platform linux/amd64,linux/arm,linux/arm64,linux/arm/v7 \
+            -t nhmike94/gravity-sync-docker:${VERSION} -t nhmike94/gravity-sync-docker:latest${PUSH}
 
         # Remove builder as we presume that the image has been built and pushed at this point
         docker buildx rm gravitysyncdockerbuilder
