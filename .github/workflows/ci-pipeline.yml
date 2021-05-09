@@ -12,12 +12,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Allow Dockre-Compose to run in a non-TTY environment
-        run: export COMPOSE_INTERACTIVE_NO_CLI=1
       
       - name: Bootstrap
         run: dev_scripts/bootstrap
 
       - name: Run Test
         run: dev_scripts/test
+
+      - name: Run Cross Build
+        run: dev_scripts/cibuild --version 1.2.3
