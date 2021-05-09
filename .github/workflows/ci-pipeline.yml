@@ -1,0 +1,21 @@
+name: CI Pipeline
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Bootstrap
+        run: dev_scripts/bootstrap
+
+      - name: Run Test
+        run: dev_scripts/test
+
+      - name: Run Cross Build
+        run: dev_scripts/cibuild --version 1.2.3
