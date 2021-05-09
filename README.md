@@ -137,7 +137,3 @@ This assumes that the key generated is indeed located at `/tmp/id_rsa.pub`, that
 ###### 3.0.0
 This version includes various neccesary configuration changes, including the changing of log directory mount points within the container. See [Gravity Sync Log Files](#gravity-sync-log-files) for the new mount points.<br />
 This version also adds two new configuration options, LOCAL_PH_INSTALL_TYPE and REMOTE_PH_INSTALL_TYPE
-
-#### TO DO
- - Integrate more error detection during configuration
-
