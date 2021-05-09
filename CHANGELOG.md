@@ -1,3 +1,12 @@
+## [3.4.4.2] - 2021.05.09
+###Changed
+- Require push to be specified when running cibuild in order to push to Docker Hub
+- Fixed input device errors in CI by removing interactive TTY flags from docker commands
+- Changed dnstest in CI tests to dnstest.local to prevent auto-filling the domain name
+
+###Added
+- Added GitHub Actions test and Cross Build CI runner
+
 ## [3.4.4.1] - 2021-05-08
 ###Changed
 - Massive changes related to building and testing
