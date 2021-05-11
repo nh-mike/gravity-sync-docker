@@ -1,3 +1,4 @@
+[![CI Pipeline](https://github.com/nh-mike/gravity-sync-docker/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/nh-mike/gravity-sync-docker/actions/workflows/ci-pipeline.yml)
 # Gravity Sync Docker
 
 These are the files required to run a Docker image running [Gravity Sync](https://github.com/vmstan/gravity-sync). Supports X86/64 in all tags, also supports ARM in the :dev tag.
