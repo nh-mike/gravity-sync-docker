@@ -1,4 +1,4 @@
-## [3.4.4.2] - 2021.05.09
+## [3.4.4.2] - 2021-05-09
 ### Changed
 - Require push to be specified when running cibuild in order to push to Docker Hub
 - Fixed input device errors in CI by removing interactive TTY flags from docker commands
