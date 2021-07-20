@@ -1,3 +1,7 @@
+## [3.4.5] - 20-07-2021
+### Changed
+- Update to GravitySync version 3.4.5
+
 ## [3.4.4.2] - 2021-05-09
 ### Changed
 - Require push to be specified when running cibuild in order to push to Docker Hub
