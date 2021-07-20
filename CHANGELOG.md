@@ -1,6 +1,14 @@
 ## [3.4.5] - 20-07-2021
 ### Changed
 - Update to GravitySync version 3.4.5
+- Updated README.md to reflect current state of arm images
+- Script improvements for better reliability
+
+### Added
+- Buildx platform linux/arm/v6
+
+### Removed
+- Buildx platform linux/arm
 
 ## [3.4.4.2] - 2021-05-09
 ### Changed
