@@ -1,3 +1,8 @@
+## [3.4.8] - 13-01-2021
+### Changed
+- Update to GravitySync version 3.4.7
+- Fix bootstrap script always downloading buildx
+
 ## [3.4.7] - 29-09-2021
 ### Changed
 - Update to GravitySync version 3.4.7
