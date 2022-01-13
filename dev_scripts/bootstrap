@@ -53,9 +53,9 @@ testvercomp () {
 
     if [[ $op != $3 ]];
     then
-        echo "FAIL: Expected '$3', Actual '$op', Arg1 '$1', Arg2 '$2'"
+        return 1
     else
-        echo "Pass: '$1 $op $2'"
+        return 0
     fi
 }
 
@@ -92,7 +92,7 @@ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 # which should provide the output "aarch64"
 
 docker run --rm --privileged docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64
-if $(!cat /proc/sys/fs/binfmt_misc/qemu-aarch64 | grep enabled 1>/dev/null 2>&1); then
+if ! eval cat /proc/sys/fs/binfmt_misc/qemu-aarch64 | grep enabled 1>/dev/null 2>&1; then
     echo "Failed to verify installation of qemu"
     exit 1
 fi
