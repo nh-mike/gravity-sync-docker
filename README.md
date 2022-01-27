@@ -125,6 +125,7 @@ sudo echo "gravitysync ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/gravitysync
 sudo usermod -a -G sudo gravitysync
 sudo usermod -a -G docker gravitysync
 ```
+I also reccomend for the security conscious, to create a more locked down sudoers file, following the discussion [here](https://github.com/vmstan/gravity-sync/discussions/153).
 
 #### SSH KEYS
 **If you ran the pre-launch scripts, then this will have been done for you**<br />
