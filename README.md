@@ -7,9 +7,9 @@ These are the files required to run a Docker image running [Gravity Sync](https:
 If upgrading, then check the [Upgrade Instructions](#upgrade-instructions) for your intended release.<br />
 You need to run the pre-launch scripts which will configure your remote host. Naturally, I reccomend you follow all reccomendations. Otherwise, you may have to do some manual configuration, or run with potentially less than desirable security configuration.<br />
 To run this is quite simple. Firstly, we must have a directory in place to map to the .ssh directory within the container.<br />
-`mkdir /path/to/.ssh`<br />
+`mkdir /path/to/gravitysync/.ssh`<br />
 Then, simply run the container in interactive mode, mounting this directory and entering at the pre-flight script file.<br />
-`docker run -t -i -v "/path/to/.ssh:/root/.ssh:rw" --rm docker_gravitysync /usr/local/bin/prelaunch.sh`
+`docker run -t -i -v "/path/to/gravitysync/.ssh:/root/.ssh:rw" --rm docker_gravitysync /usr/local/bin/prelaunch.sh`
 
 #### Manual pre-launch
 Pre-generate your SSH keys and mount them into the container. Follow the instructions in the [SSH Keys section](#ssh-keys). I also recommend you create a user on the remote machine for the purpose of receiving the SSH connection. I personally created the user gravitysync. See the sections [SSH Keys](#ssh-keys) and [User Creation Recommendation](#user-creation-recommendation) below.
