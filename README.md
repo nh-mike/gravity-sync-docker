@@ -47,9 +47,7 @@ It is important to note that in the interests of making configuration values mor
 ||DATE_OUTPUT|DATE_OUTPUT|
 ||PING_AVOID|PING_AVOID|
 ||ROOT_CHECK_AVOID|ROOT_CHECK_AVOID|
-||BACKUP_RETAIN|BACKUP_RETAIN|
 ||SSH_PKIF|SSH_PKIF|
-||BACKUP_TIMEOUT|BACKUP_TIMEOUT|
 
 #### Docker Compose example:
 ```
@@ -75,11 +73,9 @@ gravitysync:
     REMOTE_FILE_OWNER: "root:root"
     INCLUDE_CNAME: "1"
     SYNC_FREQUENCY: "15"
-    BACKUP_HOUR: "4"
     DEBUG: "true"
   volumes:
     - "/docker/gravity-sync/logs/:/root/gravity-sync/logs/:rw"
-    - "/docker/gravity-sync/data/backup:/root/gravity-sync/backup/:rw"
     - "/docker/gravity-sync/data/gravity-sync.md5:/root/gravity-sync/gravity-sync.md5:rw"
     - "/docker/gravity-sync/data/.ssh/:/root/.ssh/:rw"
     - "/docker/pihole/config/pihole:/etc/pihole/:rw"
@@ -98,10 +94,6 @@ It is located at `/var/run/docker.sock` and should be mounted at `/var/run/docke
 ###### Secondary PiHole Configuration Directory
 `/etc/pihole/ - READ / WRITE`<br />
 This is where your gravity database sits. On a standard PiHole install, it would sit at `/etc/pihole`. Ensure that wherever you mount this in the Gravity Sync container, you configure the ***LOCAL_PIHOLE_DIR*** to the same value (directory within the container). I personally prefer to mount it at `/etc/pihole/`.
-
-###### Gravity Sync Backups
-`/root/gravity-sync/data/backup/ - READ / WRITE`<br />
-Gravity Sync performs a backup on every successful sync run, and also daily depending on to the automated backup setting. Backups are held for 7 days, depending on the retention policy specified with ***BACKUP_RETAIN***. If you do not mount this directory, then backups will be lost with every container update. This directory can be found at `/root/gravity-sync/data/backup/` within the container.
 
 ###### Gravity Sync Log Files
 `/root/gravity-sync/logs/gravity-sync.log - READ / WRITE`<br />
@@ -136,6 +128,9 @@ Alternatively, if you have OpenSSH on your system already, you can use that. You
 This assumes that the key generated is indeed located at `/tmp/id_rsa.pub`, that the remote username is `gravitysync` and that the remote system is located at `192.168.0.1`.
 
 #### Upgrade Instructions
+###### 3.5.0
+This version removes backup retention from GravitySync. This has happened upstream within GravitySync itself. For more information, read the [release notes](https://github.com/vmstan/gravity-sync/releases/tag/v3.5.0).
+
 ###### 3.0.0
 This version includes various neccesary configuration changes, including the changing of log directory mount points within the container. See [Gravity Sync Log Files](#gravity-sync-log-files) for the new mount points.<br />
 This version also adds two new configuration options, LOCAL_PH_INSTALL_TYPE and REMOTE_PH_INSTALL_TYPE
