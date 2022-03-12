@@ -1,3 +1,7 @@
+## [3.6.0] - 12-03-2022
+### Changed
+- Update to GravitySync version 3.6.0
+
 ## [3.5.0] - 01-03-2022
 ### Changed
 - Update to GravitySync version 3.5.0
