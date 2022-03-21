@@ -3,7 +3,7 @@ FROM            alpine:3 as baseenvironment
 LABEL           maintainer Michael Thompson <25192401+nh-mike@users.noreply.github.com>
 
 ENV             GS_INSTALL="secondary" \
-                GS_VERSION="3.6.1" \
+                GS_VERSION="3.6.2" \
                 GENERATE_SSH_CERTS="true" \
                 TINI_VERSION="0.19.0" \
                 DEBUG="false" \
