@@ -61,7 +61,7 @@ services:
 
 
   gravitysynctest:
-    image: "docker_gravitysync:latest"
+    image: "docker_gravity-sync-docker:latest"
     container_name: "gravitysynctest"
     restart: "unless-stopped"
     environment:

@@ -12,7 +12,7 @@ VERSION=$(cat ${WORKDIR}/Dockerfile | grep GS_VERSION= | cut -d '"' -f2)
 
 # Build a single platform image
 echo "Building Image"
-${WORKDIR}/dev_scripts/cibuild --platform singleplatform --version ${VERSION}
+${WORKDIR}/dev_scripts/cibuild --platform linux/amd64 --version ${VERSION}
 
 # Clean up testing environment (In case we previously failed testing)
 docker-compose -f ${WORKDIR}/docker-testenvironment-compose.yml down --remove-orphans

@@ -3,12 +3,11 @@ FROM            alpine:3 as baseenvironment
 LABEL           maintainer Michael Thompson <25192401+nh-mike@users.noreply.github.com>
 
 ENV             GS_INSTALL="secondary" \
-                GS_VERSION="3.4.8" \
+                GS_VERSION="3.5.0" \
                 GENERATE_SSH_CERTS="true" \
                 TINI_VERSION="0.19.0" \
                 DEBUG="false" \
                 SYNC_FREQUENCY="30" \
-                BACKUP_HOUR="1" \
                 REMOTE_HOST="127.0.0.1" \
                 SSH_PORT="22" \
                 REMOTE_USER="root" \
@@ -33,9 +32,7 @@ ENV             GS_INSTALL="secondary" \
                 DATE_OUTPUT="" \
                 PING_AVOID="" \
                 ROOT_CHECK_AVOID="" \
-                BACKUP_RETAIN="" \
-                SSH_PKIF="" \
-                BACKUP_TIMEOUT="60"
+                SSH_PKIF=""
 
 COPY            ./container_scripts/install_tini.sh /usr/local/bin/install_tini.sh
 

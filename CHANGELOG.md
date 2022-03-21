@@ -1,3 +1,14 @@
+## [3.5.0] - 15-03-2022
+### Changed
+- Update to GravitySync version 3.5.0
+- Updated README.md to reflect removal of backup functionality
+- Updated dev_scripts/cibuild and dev_scripts/test to add image squashing and more flexibility
+
+### Removed
+- Configration Options BACKUP_RETAIN and BACKUP_TIMEOUT
+- Legacy unsupported BACKUP_HOUR option (removed in GravitySync 3.3.0)
+- Build Target linux/arm (no longer supported upstream)
+
 ## [3.4.8] - 13-01-2021
 ### Changed
 - Update to GravitySync version 3.4.8
