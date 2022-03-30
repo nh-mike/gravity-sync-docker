@@ -37,11 +37,11 @@ connectSsh()
 
 checkSshKeys()
 {
-    if [ -z $SSH_PKIF ];
+    if [ -z $HOME/$SSH_PKIF ];
     then
         KEY_PATH="/root/.ssh/id_rsa"
     else
-        KEY_PATH=$SSH_PKIF
+        KEY_PATH=$HOME/$SSH_PKIF
     fi
 
     if [ ! -f "${KEY_PATH}" ];
