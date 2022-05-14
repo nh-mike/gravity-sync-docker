@@ -80,4 +80,4 @@ HEALTHCHECK     --interval=5m --timeout=60s --start-period=10s \
                 CMD /usr/local/bin/missionreport.sh
 
 ENTRYPOINT      ["/tini", "--"]
-CMD             ["/usr/local/bin/startup.sh"]
+CMD             ["cat /test && /usr/local/bin/startup.sh"]
