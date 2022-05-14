@@ -37,11 +37,11 @@ docker exec ssh apk add sqlite rsync docker
 #For some reason, gravitysynctest wants to restart now so we will have to wait for it
 wait=30
 echo "Waiting for gravitysynctest to restart"
-until [ docker container ls --format "table {{.Names}}\t{{.Status}}" | grep gravitysynctest | grep Up ]
+until docker container ls --format "table {{.Names}}\t{{.Status}}" | grep gravitysynctest | grep Up
 do
   sleep 1
-  wait=$[$wait-1]
-  if [ $wait -eq 0 ]
+  wait=$($wait-1)
+  if [ "${wait}" -eq 0 ]
   then
     echo "Timed out while awaiting gravitysynctest restart"
     exit 1
