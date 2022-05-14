@@ -28,7 +28,6 @@ docker run -v "$TESTDIR/:$TESTDIR/.ssh:rw" --rm alpine:latest apk --update add o
 
 # Bring the testing environment online
 docker-compose -f ${WORKDIR}/docker-testenvironment-compose.yml up -d
-docker container ls -a --format "table {{.ID}}\t{{.Image}}\t{{.Names}}"
 
 # Prepare the SSH container to accommodate for GravitySync's requirements
 docker exec ssh sh -c 'chmod +w /etc/sudoers && sudo sed -i "s/^gravitysync.*$/gravitysync ALL=(ALL) NOPASSWD: ALL/" /etc/sudoers'
