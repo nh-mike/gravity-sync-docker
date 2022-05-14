@@ -27,7 +27,9 @@ mkdir -p ${TESTDIR}/.ssh/
 docker run -v "$TESTDIR/:$TESTDIR/.ssh:rw" --rm alpine:latest apk --update add openssh-client && ssh-keygen -q -t rsa -f ${TESTDIR}/.ssh/id_rsa -N ''
 
 # Bring the testing environment online
+echo "Executing Docker Compose Up"
 docker-compose -f ${WORKDIR}/docker-testenvironment-compose.yml up -d
+echo "Docker Compose IS NOW Up"
 
 # Prepare the SSH container to accommodate for GravitySync's requirements
 docker exec ssh sh -c 'chmod +w /etc/sudoers && sudo sed -i "s/^gravitysync.*$/gravitysync ALL=(ALL) NOPASSWD: ALL/" /etc/sudoers'
