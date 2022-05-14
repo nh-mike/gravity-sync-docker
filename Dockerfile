@@ -32,7 +32,7 @@ ENV             GS_INSTALL="secondary" \
                 DATE_OUTPUT="" \
                 PING_AVOID="" \
                 ROOT_CHECK_AVOID="" \
-                SSH_PKIF=".ssh/id_rsa"
+                SSH_PKIF=""
 
 COPY            ./container_scripts/install_tini.sh /usr/local/bin/install_tini.sh
 
