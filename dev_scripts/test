@@ -30,42 +30,14 @@ docker run -v "$TESTDIR/:$TESTDIR/.ssh:rw" --rm alpine:latest apk --update add o
 docker-compose -f ${WORKDIR}/docker-testenvironment-compose.yml up -d
 docker container ls -a --format "table {{.ID}}\t{{.Image}}\t{{.Names}}"
 
-echo "Prepare the SSH container to accommodate for GravitySync's requirements"
+#Prepare the SSH container to accommodate for GravitySync's requirements
 docker exec ssh sh -c 'chmod +w /etc/sudoers && sudo sed -i "s/^gravitysync.*$/gravitysync ALL=(ALL) NOPASSWD: ALL/" /etc/sudoers'
 docker exec ssh apk add sqlite rsync docker
 
-#docker stop gravitysynctest
-#docker start gravitysynctest
-
-#For some reason, gravitysynctest wants to restart now so we will have to wait for it
-#wait=30
-#echo "Waiting for gravitysynctest to restart"
-#until docker container ls --format "table {{.Names}}\t{{.Status}}" | grep gravitysynctest | grep Up
-#do
-#  sleep 1
-#  wait="$(($wait - 1))"
-#  if [ "${wait}" -eq 0 ]
-#  then
-#    echo "Timed out while awaiting gravitysynctest restart"
-#    exit 1
-#  fi
-#done
-
-#sleep 5
-
-echo ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-echo
-echo
-
-docker logs gravitysynctest
-
-echo "Add the SSH container's host key to the GravitySync container's local store"
+#Add the SSH container's host key to the GravitySync container's local store
 docker exec gravitysynctest ssh -o BatchMode=yes -o StrictHostKeyChecking=no -i /root/.ssh/id_rsa -p 2222 gravitysync@172.31.255.2 exit 0
 
-echo "cat /test"
-docker exec gravitysynctest cat /test
-
-echo 'Insert a new custom DNS record in the "primary" pihole and test it'
+#Insert a new custom DNS record in the "primary" pihole and test it
 docker exec pihole1 sh -c 'echo "127.0.0.1 dnstest.local" > /etc/pihole/custom.list'
 docker exec pihole1 /usr/local/bin/pihole restartdns
 echo 'Waiting 10 seconds after PiHole DNS restart'
