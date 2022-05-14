@@ -37,8 +37,6 @@ connectSsh()
 
 checkSshKeys()
 {
-    echo $HOME > /test
-    echo "$HOME/$SSH_PKIF" >> /test
     if [ -z $HOME/$SSH_PKIF ];
     then
         KEY_PATH="/root/.ssh/id_rsa"
