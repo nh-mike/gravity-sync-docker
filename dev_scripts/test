@@ -34,6 +34,9 @@ echo "Prepare the SSH container to accommodate for GravitySync's requirements"
 docker exec ssh sh -c 'chmod +w /etc/sudoers && sudo sed -i "s/^gravitysync.*$/gravitysync ALL=(ALL) NOPASSWD: ALL/" /etc/sudoers'
 docker exec ssh apk add sqlite rsync docker
 
+docker stop gravitysynctest
+docker start gravitysynctest
+
 #For some reason, gravitysynctest wants to restart now so we will have to wait for it
 wait=30
 echo "Waiting for gravitysynctest to restart"
