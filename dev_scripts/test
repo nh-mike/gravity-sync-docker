@@ -40,7 +40,7 @@ echo "Waiting for gravitysynctest to restart"
 until docker container ls --format "table {{.Names}}\t{{.Status}}" | grep gravitysynctest | grep Up
 do
   sleep 1
-  wait=$wait-1
+  wait="$(($wait - 1))"
   if [ "${wait}" -eq 0 ]
   then
     echo "Timed out while awaiting gravitysynctest restart"
