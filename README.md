@@ -1,3 +1,6 @@
+With the discontinuation of Gravity Sync, it is time to archive this project.
+Thanks to everyone who has used my little project.
+
 [![CI Pipeline](https://github.com/nh-mike/gravity-sync-docker/actions/workflows/ci-pipeline.yml/badge.svg)](https://github.com/nh-mike/gravity-sync-docker/actions/workflows/ci-pipeline.yml)
 # Gravity Sync Docker
 
